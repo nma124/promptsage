@@ -27,3 +27,40 @@ export function getSessions() {
 export function clearSessions() {
   localStorage.removeItem(STORAGE_KEY);
 }
+
+// --- Votes ---
+const VOTES_KEY = "promptsage_votes";
+
+export function getVotes() {
+  try {
+    return JSON.parse(localStorage.getItem(VOTES_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+export function setVote(promptId, delta) {
+  const votes = getVotes();
+  votes[promptId] = (votes[promptId] || 0) + delta;
+  localStorage.setItem(VOTES_KEY, JSON.stringify(votes));
+  return votes;
+}
+
+// --- Comments ---
+const COMMENTS_KEY = "promptsage_comments";
+
+export function getUserComments() {
+  try {
+    return JSON.parse(localStorage.getItem(COMMENTS_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+export function addUserComment(promptId, text) {
+  const all = getUserComments();
+  if (!all[promptId]) all[promptId] = [];
+  all[promptId].push({ author: 'you', time: 'just now', text });
+  localStorage.setItem(COMMENTS_KEY, JSON.stringify(all));
+  return all;
+}
