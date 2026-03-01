@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import EnhanceView from './components/EnhanceView.jsx';
 import BrowseView from './components/BrowseView.jsx';
+import AnalyticsView from './components/AnalyticsView.jsx';
 
 const GLOBAL_STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap');
@@ -77,7 +78,7 @@ export default function App() {
         </div>
 
         <nav style={{ display: 'flex', gap: 32 }}>
-          {[['enhance', 'Enhance'], ['browse', 'Browse']].map(([id, label]) => (
+          {[['enhance', 'Enhance'], ['browse', 'Browse'], ['analytics', 'Analytics']].map(([id, label]) => (
             <span
               key={id}
               className={`nav ${view === id ? 'active' : ''}`}
@@ -110,6 +111,9 @@ export default function App() {
         )}
         {view === 'browse' && (
           <BrowseView onLoadPrompt={handleLoadPrompt} />
+        )}
+        {view === 'analytics' && (
+          <AnalyticsView />
         )}
       </main>
     </div>

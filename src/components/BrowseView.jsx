@@ -4,12 +4,19 @@ import { LIBRARY, CATEGORIES, CAT_COLORS } from '../constants.js';
 export default function BrowseView({ onLoadPrompt }) {
   const [search, setSearch]       = useState('');
   const [activeCat, setActiveCat] = useState('All');
+  const [hoverId, setHoverId]     = useState(null);
 
-  const filtered = LIBRARY.filter(
-    (p) =>
-      (activeCat === 'All' || p.category === activeCat) &&
-      (!search || p.title.toLowerCase().includes(search.toLowerCase()))
-  );
+  const filtered = LIBRARY.filter((p) => {
+    if (activeCat !== 'All' && p.category !== activeCat) return false;
+    if (!search) return true;
+    const q = search.toLowerCase();
+    return (
+      p.title.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q) ||
+      p.content.toLowerCase().includes(q) ||
+      p.tags.some((t) => t.includes(q))
+    );
+  });
 
   return (
     <div className="fu">
@@ -50,7 +57,9 @@ export default function BrowseView({ onLoadPrompt }) {
             key={p.id}
             className="card"
             onClick={() => onLoadPrompt(p.content)}
-            style={{ border: '1px solid #1a1510', borderRadius: 4, padding: 20, background: '#0d0d0d', opacity: 1, transition: `opacity .4s ease ${i * 0.07}s, transform .4s ease ${i * 0.07}s, border-color .2s` }}
+            onMouseEnter={() => setHoverId(p.id)}
+            onMouseLeave={() => setHoverId(null)}
+            style={{ border: '1px solid #1a1510', borderRadius: 4, padding: 20, background: '#0d0d0d', opacity: 1, transition: `opacity .4s ease ${i * 0.07}s, transform .4s ease ${i * 0.07}s, border-color .2s`, position: 'relative' }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 9, letterSpacing: '1.5px', color: CAT_COLORS[p.category] || '#6b6055', padding: '2px 8px', borderRadius: 2, border: `1px solid ${CAT_COLORS[p.category] || '#6b6055'}22`, background: `${CAT_COLORS[p.category] || '#6b6055'}10` }}>
@@ -59,7 +68,7 @@ export default function BrowseView({ onLoadPrompt }) {
               <span style={{ color: '#d4a96a', fontSize: 11 }}>★ {p.rating}</span>
             </div>
             <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 17, fontWeight: 700, marginBottom: 8 }}>{p.title}</h3>
-            <p style={{ fontSize: 12, color: '#3a3228', lineHeight: 1.6, marginBottom: 14, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+            <p style={{ fontSize: 12, color: hoverId === p.id ? '#6b6055' : '#3a3228', lineHeight: 1.6, marginBottom: 14, display: '-webkit-box', WebkitLineClamp: hoverId === p.id ? 5 : 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', transition: 'color .2s' }}>
               {p.content}
             </p>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

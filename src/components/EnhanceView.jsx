@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ScoreRing from './ScoreRing.jsx';
 import { callEnhanceAPI } from '../api.js';
 import { buildDiff } from '../utils/diff.js';
+import { saveSession } from '../utils/storage.js';
 import { RISK_COLORS, TAG_COLORS } from '../constants.js';
 
 export default function EnhanceView({ initialPrompt, onPromptChange }) {
@@ -19,6 +20,7 @@ export default function EnhanceView({ initialPrompt, onPromptChange }) {
     try {
       const data = await callEnhanceAPI(raw, ctx, preserve);
       setResult({ ...data, ...buildDiff(raw, data.enhanced, data.risky_phrases) });
+      saveSession(raw, data);
     } catch (e) {
       setError('Enhancement failed — ' + e.message);
     }
