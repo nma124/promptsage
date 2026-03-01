@@ -15,6 +15,9 @@ export default defineConfig({
       },
     },
   ],
+  define: {
+    'import.meta.env.VITE_EXT': JSON.stringify('1'),
+  },
   base: './',
   build: {
     outDir: 'dist-extension',
