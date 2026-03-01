@@ -5,6 +5,7 @@ import BrowseView from './components/BrowseView.jsx';
 const GLOBAL_STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body, #root { width: 420px; min-height: 600px; }
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: #111; }
   ::-webkit-scrollbar-thumb { background: #2a2218; border-radius: 2px; }
@@ -47,7 +48,8 @@ export default function App() {
     <div style={{
       fontFamily: 'Georgia,serif',
       background: '#0a0a0a',
-      minHeight: '100vh',
+      width: 420,
+      minHeight: 600,
       color: '#e8e0d4',
       opacity: mounted ? 1 : 0,
       transform: mounted ? 'none' : 'translateY(8px)',
@@ -56,7 +58,7 @@ export default function App() {
       {/* Header */}
       <header style={{
         borderBottom: '1px solid #1a1510',
-        padding: '0 40px',
+        padding: '0 16px',
         height: 58,
         display: 'flex',
         alignItems: 'center',
@@ -101,7 +103,7 @@ export default function App() {
       </header>
 
       {/* Main */}
-      <main style={{ maxWidth: 1100, margin: '0 auto', padding: '44px 40px' }}>
+      <main style={{ maxWidth: 420, margin: '0 auto', padding: '20px 16px' }}>
         {view === 'enhance' && (
           <EnhanceView
             key={loadedPrompt}

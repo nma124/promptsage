@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "PromptSage",
+  "version": "0.1.0",
+  "description": "Compile your prompt. Eliminate hallucinations.",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "favicon.svg"
+  },
+  "permissions": [],
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "icons": {
+    "128": "favicon.svg"
+  }
+}
